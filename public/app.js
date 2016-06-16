@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+  vespaPage.init();
 })
 
 var vespaPage  = {
@@ -13,11 +13,26 @@ var vespaPage  = {
   },
 
   events: function() {
+    $('form').on('submit', function(event) {
+      event.preventDefault();
+      var objToSave = {
+        description: $('input[name="desc"]').val(),
+        lat: $('input[name="lat"]').val(),
+        lon: $('input[name="lon"]').val(),
+        time: 0,
+        hasSidecar: true,
+        image: $('input[name="image"]').val(),
+      }
 
+      vespaPage.create(JSON.stringify(objToSave));
+
+      $('input').val("");
+    })
   },
 
   create: function(vespaObject) {
-    $.ajax({
+    $.post({
+      contentType: "application/json; charset=utf-8",
       method: "POST",
       url: "/vespa",
       data: vespaObject,
