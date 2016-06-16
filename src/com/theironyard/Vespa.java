@@ -12,6 +12,9 @@ public class Vespa {
     double lon;
     boolean hasSidecar;
 
+    public Vespa() {
+    }
+
     public Vespa(Integer id, int time, String description, String image, double lat, double lon, boolean hasSidecar) {
         this.id = id;
         this.time = time;
