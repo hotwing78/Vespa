@@ -9,7 +9,7 @@ var vespaPage  = {
   },
 
   styling: function() {
-
+    vespaPage.read();
   },
 
   events: function() {
