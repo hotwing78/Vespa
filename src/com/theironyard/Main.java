@@ -1,5 +1,6 @@
 package com.theironyard;
 
+import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
 import org.h2.tools.Server;
 import spark.Spark;
@@ -32,6 +33,17 @@ public class Main {
         return vespas;
     }
 
+    public static void insertVespa(Connection conn, Vespa vespa) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO vespas VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+        stmt.setInt(1, vespa.getTime());
+        stmt.setString(2, vespa.getDescription());
+        stmt.setString(3, vespa.getImage());
+        stmt.setDouble(4, vespa.getLat());
+        stmt.setDouble(5, vespa.getLon());
+        stmt.setBoolean(6, vespa.isHasSidecar());
+        stmt.execute();
+    }
+
     public static void main(String[] args) throws SQLException {
         Server.createWebServer().start();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
@@ -45,6 +57,16 @@ public class Main {
                     ArrayList<Vespa> vespas = selectVespas(conn);
                     JsonSerializer s = new JsonSerializer();
                     return s.serialize(vespas);
+                }
+        );
+        Spark.post(
+                "/vespa",
+                (request, response) -> {
+                    String body = request.body();
+                    JsonParser p = new JsonParser();
+                    Vespa vespa = p.parse(body, Vespa.class);
+                    insertVespa(conn, vespa);
+                    return "";
                 }
         );
     }

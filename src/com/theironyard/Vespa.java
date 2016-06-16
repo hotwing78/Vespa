@@ -4,7 +4,7 @@ package com.theironyard;
  * Created by zach on 6/16/16.
  */
 public class Vespa {
-    int id;
+    Integer id;
     int time;
     String description;
     String image;
@@ -12,7 +12,7 @@ public class Vespa {
     double lon;
     boolean hasSidecar;
 
-    public Vespa(int id, int time, String description, String image, double lat, double lon, boolean hasSidecar) {
+    public Vespa(Integer id, int time, String description, String image, double lat, double lon, boolean hasSidecar) {
         this.id = id;
         this.time = time;
         this.description = description;
@@ -22,11 +22,11 @@ public class Vespa {
         this.hasSidecar = hasSidecar;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
